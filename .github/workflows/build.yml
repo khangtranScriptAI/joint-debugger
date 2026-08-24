@@ -8,24 +8,41 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
 
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore
+      - name: Install Android + wasm-tools workloads
+        run: |
+          dotnet workload install android wasm-tools-net8
+          dotnet workload list
+
+      - name: Restore packages (with workload restore)
+        run: dotnet workload restore
+
+      - name: Restore NuGet
         run: dotnet restore
 
       - name: Build APK
         run: dotnet publish -c Release -f net8.0-android -o ./output
 
+      - name: Find APK file
+        id: find_apk
+        run: |
+          find ./output -name "*.apk" -type f
+          echo "apk_path=$(find ./output -name '*.apk' -type f | head -1)" >> $GITHUB_OUTPUT
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: JointDebugger-APK
-          path: ./output/com.jointdebugger.app-Signed.apk
+          path: ${{ steps.find_apk.outputs.apk_path }}
+          if-no-files-found: error
+          retention-days: 7
