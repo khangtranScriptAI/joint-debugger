@@ -1,1 +1,31 @@
+name: Build APK
 
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build APK
+        run: dotnet publish -c Release -f net8.0-android -o ./output
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JointDebugger-APK
+          path: ./output/com.jointdebugger.app-Signed.apk
