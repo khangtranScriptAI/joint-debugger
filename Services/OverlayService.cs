@@ -3,7 +3,7 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Opengl;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using JointDebugger.Config;
@@ -38,7 +38,7 @@ namespace JointDebugger.Services
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            _renderThread ??= new OverlayRenderThread(this, _surfaceView.Holder, new Config.Config());
+            _renderThread ??= new OverlayRenderThread(this, _surfaceView.Holder, new Settings());
             if (!_renderThread.IsAlive) _renderThread.Start();
             return StartCommandResult.Sticky;
         }
@@ -85,22 +85,22 @@ namespace JointDebugger.Services
     {
         private readonly Context _ctx;
         private readonly ISurfaceHolder _holder;
-        private readonly Config.Config _config;
+        private readonly Settings _settings;
         private readonly OverlayRenderer _renderer;
         private readonly EntityProvider _entityProvider = new EntityProvider();
         private readonly CameraProvider _cameraProvider = new CameraProvider();
 
         private volatile bool _running = true;
 
-        public OverlayRenderThread(Context ctx, ISurfaceHolder holder, Config.Config config)
+        public OverlayRenderThread(Context ctx, ISurfaceHolder holder, Settings settings)
         {
             _ctx = ctx;
             _holder = holder;
-            _config = config;
-            _renderer = new OverlayRenderer(_config);
+            _settings = settings;
+            _renderer = new OverlayRenderer(_settings);
         }
 
-        public void Stop() => _running = false;
+        public new void Stop() => _running = false;
 
         public override void Run()
         {
