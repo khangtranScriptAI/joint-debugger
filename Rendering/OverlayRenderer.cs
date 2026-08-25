@@ -32,11 +32,21 @@ namespace JointDebugger.Rendering
             ImGui.SetNextWindowSize(new System.Numerics.Vector2(360, 0), ImGuiCond.Once);
             if (ImGui.Begin("Joint Position Debugger"))
             {
-                ImGui.Checkbox("Joint Markers ON/OFF",  ref _settings.ShowJointMarkers);
-                ImGui.Checkbox("Joint Labels ON/OFF",    ref _settings.ShowBoneLabels);
+                bool showMarkers = _settings.ShowJointMarkers;
+                if (ImGui.Checkbox("Joint Markers ON/OFF", ref showMarkers))
+                    _settings.ShowJointMarkers = showMarkers;
 
-                ImGui.SliderFloat("Marker Radius",  ref _settings.MarkerRadius,  1.0f, 8.0f);
-                ImGui.SliderFloat("Outline Radius", ref _settings.OutlineRadius, 2.0f, 12.0f);
+                bool showLabels = _settings.ShowBoneLabels;
+                if (ImGui.Checkbox("Joint Labels ON/OFF", ref showLabels))
+                    _settings.ShowBoneLabels = showLabels;
+
+                float markerRadius = _settings.MarkerRadius;
+                if (ImGui.SliderFloat("Marker Radius", ref markerRadius, 1.0f, 8.0f))
+                    _settings.MarkerRadius = markerRadius;
+
+                float outlineRadius = _settings.OutlineRadius;
+                if (ImGui.SliderFloat("Outline Radius", ref outlineRadius, 2.0f, 12.0f))
+                    _settings.OutlineRadius = outlineRadius;
 
                 var markerRgb = new System.Numerics.Vector4(
                     _settings.MarkerColor.X,
@@ -48,10 +58,17 @@ namespace JointDebugger.Rendering
                     _settings.MarkerColor = new Vector4(markerRgb.X, markerRgb.Y, markerRgb.Z, markerRgb.W);
                 }
 
-                ImGui.SliderFloat("Outline Alpha", ref _settings.OutlineAlpha, 0.0f, 1.0f);
-                ImGui.SliderFloat("Label Alpha",   ref _settings.LabelAlpha,   0.0f, 1.0f);
+                float outlineAlpha = _settings.OutlineAlpha;
+                if (ImGui.SliderFloat("Outline Alpha", ref outlineAlpha, 0.0f, 1.0f))
+                    _settings.OutlineAlpha = outlineAlpha;
 
-                ImGui.Checkbox("Debug Joint Position", ref _settings.DebugJointPosition);
+                float labelAlpha = _settings.LabelAlpha;
+                if (ImGui.SliderFloat("Label Alpha", ref labelAlpha, 0.0f, 1.0f))
+                    _settings.LabelAlpha = labelAlpha;
+
+                bool debug = _settings.DebugJointPosition;
+                if (ImGui.Checkbox("Debug Joint Position", ref debug))
+                    _settings.DebugJointPosition = debug;
 
                 ImGui.Separator();
                 if (ImGui.Button("Reset Settings"))
