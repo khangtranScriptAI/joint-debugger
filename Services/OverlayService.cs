@@ -65,7 +65,7 @@ namespace JointDebugger.Services
             _layoutParams = new WindowManagerLayoutParams(
                 WindowManagerLayoutParams.MatchParent,
                 WindowManagerLayoutParams.MatchParent,
-                WindowManagerType.ApplicationOverlay,
+                Android.Views.WindowManagerType.ApplicationOverlay,
                 WindowManagerFlags.NotFocusable
                 | WindowManagerFlags.NotTouchable
                 | WindowManagerFlags.LayoutNoLimits
