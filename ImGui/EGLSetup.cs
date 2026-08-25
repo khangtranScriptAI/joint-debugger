@@ -1,6 +1,10 @@
 using System;
 using Android.Opengl;
-using Javax.Microedition.Khronos.Egl;
+using EGL10 = Javax.Microedition.Khronos.Egl.IEGL10;
+using EGLDisplay = Javax.Microedition.Khronos.Egl.EGLDisplay;
+using EGLConfig = Javax.Microedition.Khronos.Egl.EGLConfig;
+using EGLContext = Javax.Microedition.Khronos.Egl.EGLContext;
+using EGLSurface = Javax.Microedition.Khronos.Egl.EGLSurface;
 
 namespace JointDebugger.ImGuiGL
 {
@@ -12,7 +16,7 @@ namespace JointDebugger.ImGuiGL
     {
         public EGL10 Egl { get; private set; }
         public EGLDisplay Display { get; private set; }
-        public EGLConfig Config { get; private set; }
+        public EGLConfig EglConfig { get; private set; }
         public EGLContext Context { get; private set; }
         public EGLSurface Surface { get; private set; }
 
@@ -21,7 +25,9 @@ namespace JointDebugger.ImGuiGL
 
         public bool Initialize(Java.Lang.Object surface)
         {
-            Egl = (EGL10)EGLContext.EGL.JavaGetInstance();
+            Egl = EGLContext.EGL.JavaCast<EGL10>();
+            if (Egl == null) return false;
+
             Display = Egl.EglGetDisplay(EGL10.EglDefaultDisplay);
             if (Display == null) return false;
 
@@ -42,17 +48,17 @@ namespace JointDebugger.ImGuiGL
             EGLConfig[] configs = new EGLConfig[1];
             int[] numConfigs = new int[1];
             if (!Egl.EglChooseConfig(Display, attribs, configs, 1, numConfigs)) return false;
-            Config = configs[0];
+            EglConfig = configs[0];
 
             int[] ctxAttribs =
             {
                 0x3098 /* EGL_CONTEXT_CLIENT_VERSION */, 3,
                 (int)EGL10.EglNone
             };
-            Context = Egl.EglCreateContext(Display, Config, EGL10.EglNoContext, ctxAttribs);
+            Context = Egl.EglCreateContext(Display, EglConfig, EGL10.EglNoContext, ctxAttribs);
             if (Context == null) return false;
 
-            Surface = Egl.EglCreateWindowSurface(Display, Config, surface, null);
+            Surface = Egl.EglCreateWindowSurface(Display, EglConfig, surface, null);
             if (Surface == null) return false;
 
             if (!Egl.EglMakeCurrent(Display, Surface, Surface, Context)) return false;
