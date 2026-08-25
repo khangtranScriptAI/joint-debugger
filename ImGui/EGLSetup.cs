@@ -25,7 +25,9 @@ namespace JointDebugger.ImGuiGL
 
         public bool Initialize(Java.Lang.Object surface)
         {
-            Egl = EGLContext.EGL.JavaCast<EGL10>();
+            var eglInstance = EGLContext.EGL;
+            if (eglInstance == null) return false;
+            Egl = eglInstance.JavaCast<EGL10>();
             if (Egl == null) return false;
 
             Display = Egl.EglGetDisplay(EGL10.EglDefaultDisplay);
