@@ -21,7 +21,7 @@ namespace JointDebugger
         {
             base.OnCreate(savedInstanceState);
 
-            var layout = new LinearLayout(this) { Orientation = LinearLayout.Orientation.Vertical };
+            var layout = new LinearLayout(this) { Orientation = Orientation.Vertical };
             var status = new TextView(this) { Text = "Joint Position Debugger" };
             var hint = new TextView(this) { Text = "Permission required to draw over other apps." };
             var grant = new Button(this) { Text = "Grant overlay permission" };
