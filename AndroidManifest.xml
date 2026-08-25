@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.jointdebugger.app"
-          android:versionCode="1"
-          android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
   <!-- Draw over other apps (the whole point of the debugger). -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -30,7 +27,6 @@
 
     <service
         android:name=".Services.OverlayService"
-        android:exported="false"
-        android:foregroundServiceType="systemExcluded" />
+        android:exported="false" />
   </application>
 </manifest>

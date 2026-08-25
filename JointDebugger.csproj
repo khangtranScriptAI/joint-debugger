@@ -13,6 +13,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
