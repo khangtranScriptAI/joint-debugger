@@ -6,7 +6,7 @@ namespace JointDebugger.Config
     /// User-tunable knobs for the joint debugger. Lives at process scope so
     /// both the UI window and the renderer read the same instance.
     /// </summary>
-    public class Config
+    public class Settings
     {
         public bool ShowJointMarkers { get; set; } = true;
         public bool ShowBoneLabels { get; set; } = true;
