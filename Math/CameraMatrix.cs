@@ -14,15 +14,18 @@ namespace JointDebugger.Math
     {
         public readonly float[] M = new float[16];
 
-        public static CameraMatrix Identity => new CameraMatrix
+        public static CameraMatrix Identity
         {
-            M = {
-                1f, 0f, 0f, 0f,
-                0f, 1f, 0f, 0f,
-                0f, 0f, 1f, 0f,
-                0f, 0f, 0f, 1f
+            get
+            {
+                var m = new CameraMatrix();
+                m.M[0]  = 1f; m.M[1]  = 0f; m.M[2]  = 0f; m.M[3]  = 0f;
+                m.M[4]  = 0f; m.M[5]  = 1f; m.M[6]  = 0f; m.M[7]  = 0f;
+                m.M[8]  = 0f; m.M[9]  = 0f; m.M[10] = 1f; m.M[11] = 0f;
+                m.M[12] = 0f; m.M[13] = 0f; m.M[14] = 0f; m.M[15] = 1f;
+                return m;
             }
-        };
+        }
 
         /// <summary>
         /// Transform a 3D point as a homogeneous (x,y,z,1) vector.
