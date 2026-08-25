@@ -123,13 +123,13 @@ namespace JointDebugger.Rendering
             // Draw outline first so the brighter inner marker sits cleanly on top.
             foreach (var kv in screenPositions)
             {
-                var p = kv.Value;
+                var p = new System.Numerics.Vector2(kv.Value.X, kv.Value.Y);
                 drawList.AddCircleFilled(p, config.OutlineRadius, outlineColor, segments);
             }
 
             foreach (var kv in screenPositions)
             {
-                var p = kv.Value;
+                var p = new System.Numerics.Vector2(kv.Value.X, kv.Value.Y);
                 drawList.AddCircleFilled(p, config.MarkerRadius, markerColor, segments);
             }
 
@@ -140,7 +140,9 @@ namespace JointDebugger.Rendering
                 foreach (var kv in screenPositions)
                 {
                     if (!Abbreviations.TryGetValue(kv.Key, out var label)) continue;
-                    var labelPos = kv.Value + labelOffset;
+                    var labelPos = new System.Numerics.Vector2(
+                        kv.Value.X + labelOffset.X,
+                        kv.Value.Y + labelOffset.Y);
                     drawList.AddText(labelPos, labelColor, label);
                 }
             }
