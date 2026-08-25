@@ -69,7 +69,7 @@ namespace JointDebugger.Rendering
             CameraMatrix camera,
             int screenW,
             int screenH,
-            Config config)
+            Settings config)
         {
             var screenPositions = new Dictionary<JointType, Vector2>();
 
