@@ -27,7 +27,7 @@ namespace JointDebugger.ImGuiGL
         {
             var eglInstance = EGLContext.EGL;
             if (eglInstance == null) return false;
-            Egl = eglInstance.JavaCast<EGL10>();
+            Egl = (EGL10)eglInstance;
             if (Egl == null) return false;
 
             Display = Egl.EglGetDisplay(EGL10.EglDefaultDisplay);
