@@ -110,7 +110,10 @@ jobs:
           echo "APK files produced:"
           find "$APK_OUTPUT_DIR" -type f -name '*.apk' -print
 
-          APK=$(find "$APK_OUTPUT_DIR" -type f -name '*.apk' -print -quit)
+          APK=$(find "$APK_OUTPUT_DIR" -type f -name '*-Signed.apk' -print -quit)
+          if [[ -z "$APK" ]]; then
+            APK=$(find "$APK_OUTPUT_DIR" -type f -name '*.apk' -print -quit)
+          fi
           if [[ -z "$APK" ]]; then
             echo "ERROR: No APK was produced."
             exit 1
