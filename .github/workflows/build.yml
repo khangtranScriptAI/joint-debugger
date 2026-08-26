@@ -15,7 +15,7 @@ jobs:
 
     env:
       APK_OUTPUT_DIR: ${{ github.workspace }}/output
-      KEYSTORE_FILE: ${{ runner.temp }}/jointdebugger-release.keystore
+      KEYSTORE_FILE: ${{ github.workspace }}/.keystore/jointdebugger-release.keystore
       KEY_ALIAS: jointdebugger
 
     steps:
@@ -59,6 +59,8 @@ jobs:
             echo "  JOINTDEBUGGER_KEY_PASSWORD"
             exit 1
           fi
+
+          mkdir -p "$(dirname "$KEYSTORE_FILE")"
 
           keytool -genkeypair \
             -v \
