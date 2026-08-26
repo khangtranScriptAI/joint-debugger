@@ -82,6 +82,8 @@ jobs:
         env:
           KEYSTORE_PASSWORD: ${{ secrets.JOINTDEBUGGER_KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.JOINTDEBUGGER_KEY_PASSWORD }}
+          JAVA_OPTS: -Xmx4g
+          _JAVA_OPTIONS: -Xmx4g
         run: |
           set -euo pipefail
           rm -rf "$APK_OUTPUT_DIR"
@@ -96,7 +98,9 @@ jobs:
             -p:AndroidSigningStorePass="$KEYSTORE_PASSWORD" \
             -p:AndroidSigningKeyAlias="$KEY_ALIAS" \
             -p:AndroidSigningKeyPass="$KEY_PASSWORD" \
-            -p:AndroidPackageFormat=apk
+            -p:AndroidPackageFormat=apk \
+            -p:JavaMaximumHeapSize=4G \
+            -v:detailed
 
       - name: Verify APK signature and package
         shell: bash
